@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yolipai.server.common.module.sms.persistence.dao.TestTableMapper" >
+  <resultMap id="BaseResultMap" type="com.yolipai.server.common.module.sms.persistence.entity.TestTable" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="timer" property="timer" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Condition_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Condition_Where_Clause" >
+    <where >
+      <foreach collection="condition.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, count, price, timer
+  </sql>
+  <select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.yolipai.server.common.module.sms.persistence.entity.TestTableCriteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ylp_test_table
+    <if test="_parameter != null" >
+      <include refid="Condition_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart>0 or limitStart==0" >
+      limit ${limitStart} , ${limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ylp_test_table
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ylp_test_table
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByCondition" parameterType="com.yolipai.server.common.module.sms.persistence.entity.TestTableCriteria" >
+    delete from ylp_test_table
+    <if test="_parameter != null" >
+      <include refid="Condition_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yolipai.server.common.module.sms.persistence.entity.TestTable" >
+    insert into ylp_test_table (id, count, price, 
+      timer)
+    values (#{id,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, 
+      #{timer,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yolipai.server.common.module.sms.persistence.entity.TestTable" >
+    insert into ylp_test_table
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="count != null" >
+        count,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="timer != null" >
+        timer,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="timer != null" >
+        #{timer,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByCondition" parameterType="com.yolipai.server.common.module.sms.persistence.entity.TestTableCriteria" resultType="java.lang.Integer" >
+    select count(*) from ylp_test_table
+    <if test="_parameter != null" >
+      <include refid="Condition_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByConditionSelective" parameterType="map" >
+    update ylp_test_table
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.count != null" >
+        count = #{record.count,jdbcType=INTEGER},
+      </if>
+      <if test="record.price != null" >
+        price = #{record.price,jdbcType=DECIMAL},
+      </if>
+      <if test="record.timer != null" >
+        timer = #{record.timer,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Condition_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByCondition" parameterType="map" >
+    update ylp_test_table
+    set id = #{record.id,jdbcType=VARCHAR},
+      count = #{record.count,jdbcType=INTEGER},
+      price = #{record.price,jdbcType=DECIMAL},
+      timer = #{record.timer,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Condition_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yolipai.server.common.module.sms.persistence.entity.TestTable" >
+    update ylp_test_table
+    <set >
+      <if test="count != null" >
+        count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="timer != null" >
+        timer = #{timer,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yolipai.server.common.module.sms.persistence.entity.TestTable" >
+    update ylp_test_table
+    set count = #{count,jdbcType=INTEGER},
+      price = #{price,jdbcType=DECIMAL},
+      timer = #{timer,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <cache type="com.yolipai.server.common.caches.mybatis.redis.RedisCache" />
+</mapper>
